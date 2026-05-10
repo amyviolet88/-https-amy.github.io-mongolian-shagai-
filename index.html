@@ -1,1 +1,82 @@
-file:///C:/Users/PC/Downloads/index%20(1).html
+HTML
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Монгол Шагай - Mongolian Shagai</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .shagai-display {
+            font-size: 3rem;
+            margin: 20px;
+            min-height: 80px;
+        }
+        button {
+            padding: 10px 25px;
+            font-size: 1.2rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result-text {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Монгол Шагай</h1>
+        <div id="shagai-container" class="shagai-display">🎲</div>
+        <p id="result" class="result-text">Шагайгаа орхино уу!</p>
+        <button onclick="rollShagai()">Орхих</button>
+    </div>
+
+    <script>
+        const shagaiTypes = [
+            { name: "Хонь", icon: "🐑" },
+            { name: "Ямаа", icon: "🐐" },
+            { name: "Мори", icon: "🐎" },
+            { name: "Тэмээ", icon: "🐪" }
+        ];
+
+        function rollShagai() {
+            const container = document.getElementById('shagai-container');
+            const resultText = document.getElementById('result');
+            
+            // Санамсаргүйгээр нэг талыг сонгох
+            const randomIndex = Math.floor(Math.random() * shagaiTypes.length);
+            const selected = shagaiTypes[randomIndex];
+
+            // Үр дүнг харуулах
+            container.innerHTML = selected.icon;
+            resultText.innerHTML = "Танд <b>" + selected.name + "</b> буулаа!";
+        }
+    </script>
+
+</body>
+</html>
