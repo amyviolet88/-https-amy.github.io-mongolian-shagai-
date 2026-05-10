@@ -1,0 +1,308 @@
+/* =============================
+   Mongolian Shagai — style.css
+   ============================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Noto+Serif+Mongolian&family=IM+Fell+English:ital@0;1&display=swap');
+
+:root {
+  --gold:       #C9A227;
+  --gold-light: #F0D078;
+  --gold-dark:  #7A5C00;
+  --cream:      #FDF6E3;
+  --dark:       #1a1208;
+  --shadow:     rgba(0,0,0,0.55);
+  --radius-orbit: 155px;   /* orbit radius in px */
+  --shagai-size: 90px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; min-height: 100vh;
+  overflow-x: hidden;
+  font-family: 'IM Fell English', serif;
+  color: var(--cream);
+  background: var(--dark);
+}
+
+/* ── Background ── */
+.bg-pattern {
+  position: fixed; inset: 0; z-index: 0;
+  overflow: hidden;
+}
+.bg-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.18;
+  filter: sepia(60%) saturate(200%) hue-rotate(5deg);
+}
+.bg-pattern::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center,
+    rgba(26,18,8,0.45) 0%,
+    rgba(26,18,8,0.82) 70%,
+    rgba(26,18,8,0.97) 100%);
+}
+
+/* ── Audio button ── */
+.audio-controls {
+  position: fixed; top: 1.2rem; right: 1.4rem; z-index: 100;
+}
+.audio-btn {
+  display: flex; align-items: center; gap: .55rem;
+  background: rgba(201,162,39,0.15);
+  border: 1.5px solid var(--gold);
+  color: var(--gold-light);
+  padding: .45rem 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-family: inherit; font-size: .8rem;
+  letter-spacing: .05em;
+  transition: background .3s, box-shadow .3s;
+  backdrop-filter: blur(6px);
+}
+.audio-btn svg { width: 16px; height: 16px; }
+.audio-btn:hover {
+  background: rgba(201,162,39,0.30);
+  box-shadow: 0 0 14px rgba(201,162,39,0.4);
+}
+
+/* ── Main container ── */
+.main-container {
+  position: relative; z-index: 10;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2rem 1rem 3rem;
+  gap: 2rem;
+}
+
+/* ── Title ── */
+.title {
+  font-family: 'Noto Serif Mongolian', 'Cinzel Decorative', serif;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  color: var(--gold-light);
+  text-shadow: 0 0 30px rgba(201,162,39,0.7), 0 2px 8px var(--shadow);
+  letter-spacing: .08em;
+  text-align: center;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+.subtitle {
+  font-size: .95rem;
+  color: var(--gold);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin-top: -.8rem;
+  text-align: center;
+  opacity: .8;
+}
+@keyframes titleGlow {
+  from { text-shadow: 0 0 20px rgba(201,162,39,0.5), 0 2px 8px var(--shadow); }
+  to   { text-shadow: 0 0 50px rgba(240,208,120,0.9), 0 2px 8px var(--shadow); }
+}
+
+/* ── Circular frame ── */
+.circle-frame {
+  position: relative;
+  width: 420px; height: 420px;
+  max-width: 92vw; max-height: 92vw;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Outer decorative ring — replicates the uploaded golden mandala border */
+.circle-frame::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--gold-dark), var(--gold), var(--gold-light),
+    var(--gold), var(--gold-dark), var(--gold), var(--gold-light),
+    var(--gold), var(--gold-dark)
+  );
+  padding: 6px;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 12px), #fff calc(100% - 11px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 12px), #fff calc(100% - 11px));
+  animation: ringRotate 20s linear infinite;
+  box-shadow: 0 0 40px rgba(201,162,39,0.4), inset 0 0 20px rgba(201,162,39,0.2);
+}
+
+/* Petal/mandala border effect */
+.circle-frame::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  background:
+    repeating-conic-gradient(
+      rgba(201,162,39,0.6) 0deg 10deg,
+      transparent 10deg 20deg
+    ) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  animation: ringRotate 8s linear infinite reverse;
+}
+
+@keyframes ringRotate {
+  to { transform: rotate(360deg); }
+}
+
+/* Upload image fills the outer circle ring visually */
+.circle-inner {
+  position: absolute; inset: 12px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at center,
+    rgba(26,18,8,0.7) 55%,
+    rgba(201,162,39,0.08) 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.6);
+}
+
+/* ── Shagai orbital ring ── */
+.shagai-ring {
+  position: relative;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Each orbit div rotates independently; inner item counter-rotates to stay upright */
+.shagai-orbit {
+  position: absolute;
+  width: var(--shagai-size);
+  height: var(--shagai-size);
+  animation: orbitSpin 8s linear infinite;
+  /* translate to radius distance */
+  transform-origin: center center;
+}
+.orbit-0 { animation-delay: 0s; }
+.orbit-1 { animation-delay: -2s; }
+.orbit-2 { animation-delay: -4s; }
+.orbit-3 { animation-delay: -6s; }
+
+@keyframes orbitSpin {
+  from { transform: rotate(0deg)   translateX(var(--radius-orbit)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--radius-orbit)) rotate(-360deg); }
+}
+
+.shagai-item {
+  width: var(--shagai-size);
+  height: var(--shagai-size);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px;
+  filter: drop-shadow(0 4px 12px rgba(201,162,39,0.6));
+  transition: filter .3s;
+  cursor: pointer;
+}
+.shagai-item:hover {
+  filter: drop-shadow(0 0 20px rgba(240,208,120,1)) brightness(1.2);
+}
+.shagai-item img {
+  width: 68px; height: 68px;
+  object-fit: contain;
+  animation: shagaiBob 2.5s ease-in-out infinite alternate;
+}
+.orbit-1 .shagai-item img { animation-delay: .6s; }
+.orbit-2 .shagai-item img { animation-delay: 1.2s; }
+.orbit-3 .shagai-item img { animation-delay: 1.8s; }
+
+@keyframes shagaiBob {
+  from { transform: translateY(0px) rotate(-3deg); }
+  to   { transform: translateY(-5px) rotate(3deg); }
+}
+
+.shagai-label {
+  font-size: .68rem;
+  color: var(--gold-light);
+  letter-spacing: .1em;
+  text-shadow: 0 1px 4px var(--shadow);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.shagai-item:hover .shagai-label { opacity: 1; }
+
+/* ── Center symbol ── */
+.center-symbol {
+  position: absolute;
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,162,39,0.25) 0%, transparent 70%);
+  border: 2px solid rgba(201,162,39,0.5);
+  display: flex; align-items: center; justify-content: center;
+  animation: centerPulse 3s ease-in-out infinite;
+}
+.center-inner {
+  font-size: 2rem;
+  color: var(--gold);
+  text-shadow: 0 0 20px var(--gold-light);
+}
+@keyframes centerPulse {
+  0%,100% { box-shadow: 0 0 10px rgba(201,162,39,0.3); transform: scale(1); }
+  50%      { box-shadow: 0 0 30px rgba(201,162,39,0.7); transform: scale(1.08); }
+}
+
+/* ── Info cards ── */
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  max-width: 700px; width: 100%;
+}
+@media (max-width: 600px) {
+  .info-cards { grid-template-columns: repeat(2, 1fr); }
+  :root { --radius-orbit: 115px; --shagai-size: 72px; }
+  .circle-frame { width: 310px; height: 310px; }
+  .shagai-item img { width: 52px; height: 52px; }
+}
+
+.info-card {
+  background: rgba(201,162,39,0.08);
+  border: 1px solid rgba(201,162,39,0.25);
+  border-radius: 12px;
+  padding: 1.1rem .8rem;
+  text-align: center;
+  transition: background .3s, border-color .3s, transform .3s;
+  cursor: default;
+  backdrop-filter: blur(4px);
+}
+.info-card:hover {
+  background: rgba(201,162,39,0.18);
+  border-color: var(--gold);
+  transform: translateY(-4px);
+}
+.card-icon { font-size: 1.8rem; margin-bottom: .4rem; }
+.info-card h3 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: .85rem;
+  color: var(--gold-light);
+  margin-bottom: .25rem;
+  letter-spacing: .06em;
+}
+.info-card p {
+  font-size: .75rem;
+  color: rgba(253,246,227,0.6);
+  font-style: italic;
+}
+
+/* ── Decorative corner lines (matching the uploaded pattern) ── */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  width: 120px; height: 120px;
+  border: 3px solid var(--gold);
+  opacity: .25;
+  z-index: 5;
+  pointer-events: none;
+}
+body::before {
+  top: 1rem; left: 1rem;
+  border-right: none; border-bottom: none;
+}
+body::after {
+  bottom: 1rem; right: 1rem;
+  border-left: none; border-top: none;
+}
